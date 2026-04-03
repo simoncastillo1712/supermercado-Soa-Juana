@@ -1,6 +1,6 @@
 **Datos de Admin**
 
-**user: root**
+**user: root** / 
 **contraseña: 1234**
 
 # Supermercado La Soa Juana
