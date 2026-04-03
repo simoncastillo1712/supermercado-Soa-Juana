@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+
+<!-- Banner hero -->
+<div class="hero-banner text-center p-5 mb-4">
+  <h1 class="fw-bold">Bienvenido a Supermercado La Soa Juana</h1>
+  <p class="mb-4">Los mejores productos frescos y precios imbatibles</p>
+  <a href="{% url 'listar_productos' %}" class="btn btn-success btn-lg px-4">Ver Productos</a>
+</div>
+
+<!-- Banner Delivery -->
+<div class="delivery-wrapper text-center mb-4">
+  <section class="delivery-banner">
+    <div class="delivery-banner__content">
+      <div>
+        <h2 class="fw-bold mb-1">🚚 Delivery rápido a tu puerta</h2>
+        <p class="mb-0">Compra desde casa y recibe hoy mismo con despacho seguro en toda la comuna.</p>
+      </div>
+      <div class="delivery-banner__discounts">
+        <div class="discount-item">
+          <span>Compras sobre</span>
+          <strong>$20.000</strong>
+          <small>5% de descuento</small>
+        </div>
+        <div class="discount-item">
+          <span>Compras sobre</span>
+          <strong>$35.000</strong>
+          <small>10% de descuento</small>
+        </div>
+        <div class="discount-item">
+          <span>Compras sobre</span>
+          <strong>$50.000</strong>
+          <small>15% de descuento</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Productos destacados -->
+<section class="my-5 text-center mb-4">
+  <h2 class="mb-4 fw-semibold">Productos Destacados</h2>
+  <div class="row">
+    {% for producto in productos_destacados %}
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        {% if producto.imagen %}
+          <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+        {% else %}
+          <img src="{% static 'img/no-image.png' %}" class="card-img-top" alt="{{ producto.nombre }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text">${{ producto.precio }}</p>
+          <a href="#" class="btn btn-primary w-100">Comprar</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Categorías -->
+<section class="my-5 text-center mb-4">
+  <h2 class="mb-4 fw-semibold">Categorías</h2>
+  <div class="d-flex flex-wrap gap-2 mb-3">
+    {% for categoria in categorias %}
+      <a href="{% url 'listar_categorias' %}?q={{ categoria.nombre|urlencode }}" class="btn btn-outline-secondary">{{ categoria.nombre }}</a>
+    {% endfor %}
+  </div>
+
+  <form method="get" action="{% url 'inicio' %}" class="categoria-search-form">
+    <div class="input-group">
+      <span class="input-group-text">
+        <i class="bi bi-search"></i>
+      </span>
+      <input
+        type="text"
+        name="cat_q"
+        value="{{ cat_q }}"
+        class="form-control"
+        placeholder="Buscar categoría en inicio..."
+      >
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+  </form>
+</section>
+
+<!-- Promociones -->
+<section class="my-5 text-center mb-4">
+  <h2 class="mb-4 fw-semibold">Ofertas y Promociones</h2>
+  <div class="row g-3 promo-grid">
+    <div class="col-md-6 col-lg-3">
+      <article class="promo-card promo-card--green h-100">
+        <h5 class="mb-2">Combo Desayuno</h5>
+        <p class="mb-2">Lleva pan + mantequilla + mermelada con precio especial.</p>
+        <strong>A solo $4.990</strong>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <article class="promo-card promo-card--blue h-100">
+        <h5 class="mb-2">2x en Bebidas</h5>
+        <p class="mb-2">En bebidas seleccionadas de 1.5L y 2L durante esta semana.</p>
+        <strong>Paga 1 y lleva 2</strong>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <article class="promo-card promo-card--orange h-100">
+        <h5 class="mb-2">Frutas Frescas</h5>
+        <p class="mb-2">20% de descuento en manzana, pera y naranja por kilo.</p>
+        <strong>Solo por hoy</strong>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <article class="promo-card promo-card--purple h-100">
+        <h5 class="mb-2">Limpieza del Hogar</h5>
+        <p class="mb-2">Compra 3 productos de limpieza y obtén 25% de descuento.</p>
+        <strong>Stock limitado</strong>
+      </article>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

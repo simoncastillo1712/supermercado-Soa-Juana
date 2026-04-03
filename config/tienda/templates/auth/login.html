@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+
+<div class="row justify-content-center mt-4 mb-5">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow p-3 p-md-4">
+            <h2 class="text-center fw-bold mb-1">Iniciar Sesión</h2>
+            <p class="text-center text-secondary mb-4">Accede para gestionar tu supermercado</p>
+
+            <div class="card-body pt-0">
+                <form method="POST" class="form-control">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Usuario</label>
+                        <input type="text" name="username" required class="form-control" placeholder="Ingresa tu usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Contraseña</label>
+                        <input type="password" name="password" required class="form-control" placeholder="Ingresa tu contraseña">
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success py-2">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

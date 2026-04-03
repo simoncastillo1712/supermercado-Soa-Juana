@@ -1,0 +1,178 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+from django.db import models
+
+
+class Boleta(models.Model):
+    id_boleta = models.AutoField(primary_key=True)
+    id_venta = models.OneToOneField('Venta', models.CASCADE, db_column='id_venta')
+    numero_boleta = models.IntegerField()
+    fecha_emision = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'boleta'
+
+    def __str__(self):
+        return self.numero_boleta
+    
+class Categoria(models.Model):
+    id_categoria = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'categoria'
+
+    def __str__(self):
+            return self.nombre
+
+class Cliente(models.Model):
+    id_cliente = models.AutoField(primary_key=True)
+    rut_cliente = models.CharField(unique=True, max_length=15)
+    razon_social = models.CharField(max_length=100)
+    direccion = models.CharField(max_length=150, blank=True, null=True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    fecha_registro = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cliente'
+    
+    def __str__(self):
+        return self.razon_social
+
+class Compra(models.Model):
+    id_compra = models.AutoField(primary_key=True)
+    fecha = models.DateTimeField(blank=True, null=True)
+    total = models.PositiveIntegerField()
+    estado = models.CharField(max_length=9)
+    id_proveedor = models.ForeignKey('Proveedor', models.SET_NULL, db_column='id_proveedor', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'compra'
+    
+    def __str__(self):
+        return self.fecha
+
+
+class DetalleCompra(models.Model):
+    id_detalle_compra = models.AutoField(primary_key=True)
+    cantidad = models.PositiveIntegerField()
+    precio_unitario = models.PositiveIntegerField()
+    subtotal = models.PositiveIntegerField()
+    id_compra = models.ForeignKey(Compra, models.CASCADE, db_column='id_compra', blank=True, null=True)
+    id_producto = models.ForeignKey('Producto', models.RESTRICT, db_column='id_producto', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'detalle_compra'
+        
+    def __str__(self):
+        return self.id_detalle_compra
+
+
+class DetalleVenta(models.Model):
+    id_detalle_venta = models.AutoField(primary_key=True)
+    id_venta = models.ForeignKey('Venta', models.CASCADE, db_column='id_venta')
+    id_producto = models.ForeignKey('Producto', models.RESTRICT, db_column='id_producto')
+    cantidad = models.IntegerField()
+    precio_unitario = models.IntegerField()
+    subtotal = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'detalle_venta'
+    
+    def __str__(self):
+        return self.id_detalle_venta
+
+
+class Factura(models.Model):
+    id_factura = models.AutoField(primary_key=True)
+    id_venta = models.OneToOneField('Venta', models.CASCADE, db_column='id_venta')
+    numero_factura = models.IntegerField()
+    fecha_emision = models.DateTimeField()
+    id_cliente = models.ForeignKey(Cliente, models.RESTRICT, db_column='id_cliente', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'factura'
+
+    def __str__(self):
+        return self.numero_factura
+
+class Producto(models.Model):
+    id_producto = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    precio = models.IntegerField()
+    stock = models.IntegerField()
+    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    id_categoria = models.ForeignKey(Categoria, models.SET_NULL, db_column='id_categoria', null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'producto'
+    
+    def __str__(self):
+        return self.nombre
+
+
+class Proveedor(models.Model):
+    id_proveedor = models.AutoField(primary_key=True)
+    rut_proveedor = models.CharField(unique=True, max_length=13)
+    nombre_proveedor = models.CharField(unique=True, max_length=200)
+    direccion = models.CharField(max_length=150, blank=True, null=True)
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    fecha_registro = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'proveedor'
+        
+    def __str__(self):
+        return self.nombre_proveedor
+
+
+class TablaVistaFactura(models.Model):
+    numero_factura = models.IntegerField(db_column='NUMERO_FACTURA')  # Field name made lowercase.
+    fecha = models.CharField(db_column='FECHA', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    hora = models.CharField(db_column='HORA', max_length=13, blank=True, null=True)  # Field name made lowercase.
+    rut_cliente = models.CharField(db_column='RUT_CLIENTE', max_length=15)  # Field name made lowercase.
+    razon_social = models.CharField(db_column='RAZON_SOCIAL', max_length=100)  # Field name made lowercase.
+    direccion = models.CharField(db_column='DIRECCION', max_length=150, blank=True, null=True)  # Field name made lowercase.
+    telefono = models.CharField(db_column='TELEFONO', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    email = models.CharField(db_column='EMAIL', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    subtotal = models.CharField(db_column='SUBTOTAL', max_length=55, blank=True, null=True)  # Field name made lowercase.
+    iva = models.CharField(db_column='IVA', max_length=54, blank=True, null=True)  # Field name made lowercase.
+    total = models.CharField(db_column='TOTAL', max_length=48, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'tabla_vista_factura'
+    
+    def __str__(self):
+        return self.numero_factura
+
+
+class Venta(models.Model):
+    id_venta = models.AutoField(primary_key=True)
+    fecha = models.DateTimeField()
+    total = models.IntegerField()
+    tipo_documento = models.CharField(max_length=7)
+
+    class Meta:
+        managed = False
+        db_table = 'venta'
+    
+    def __str__(self):
+        return self.fecha
