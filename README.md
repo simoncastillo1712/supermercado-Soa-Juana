@@ -1,3 +1,8 @@
+# Datos de Admin #
+
+# user: root #
+# contraseña: 1234 #
+
 # Supermercado La Soa Juana
 
 Aplicación web desarrollada con **Django** para gestión de supermercado, con:
@@ -44,7 +49,7 @@ El sistema permite operar un supermercado con dos grandes áreas:
 
 - Corrección de visualización de imágenes en “Productos destacados” de inicio usando la imagen real del producto.
 - Mejoras UX/UI en home:
-  - banner delivery compacto, centrado y de color amarillo tenue.
+  - banner delivery compacto, centrado.
   - promociones en tarjetas al final de la página.
 - Búsqueda en home para categorías (`cat_q`) con límite de 10 resultados.
 - Búsqueda pública de productos por texto (`q`).
@@ -159,7 +164,7 @@ En desarrollo, `config/config/urls.py` sirve media cuando `DEBUG=True`.
 
 1. Abrir `/` y validar:
    - banner principal,
-   - banner delivery compacto (amarillo tenue),
+   - banner delivery compacto,
    - productos destacados con imagen,
    - categorías (máximo 10) y barra de búsqueda,
    - tarjetas de promociones.
