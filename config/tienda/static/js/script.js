@@ -13,10 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const carritoBadge = document.getElementById('carritoBadge');
     let productoSeleccionadoId = null;
 
-    if (!productoCards.length) {
-        return;
-    }
-
     if (!modal) {
         return;
     }
