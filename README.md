@@ -3,7 +3,7 @@
 **user: root** / 
 **contraseña: 1234**
 
-# Supermercado La Soa Juana
+# Supermercado La Soa Juana.
 
 Aplicación web desarrollada con **Django** para gestión de supermercado, con:
 - sitio público para clientes,
